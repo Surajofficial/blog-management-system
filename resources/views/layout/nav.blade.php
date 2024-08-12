@@ -9,9 +9,6 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('posts.index') }}">All Post</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">All Comments</a>
-                </li>
             </ul>
             <ul class="navbar-nav my-auto mb-2 mb-lg-0">
                 <li class="nav-item">

@@ -9,4 +9,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Comments extends Model
 {
     use HasFactory, SoftDeletes;
+    protected $fillable = [
+        'post_id',
+        'name',
+        'email',
+        'comment'
+    ];
 }

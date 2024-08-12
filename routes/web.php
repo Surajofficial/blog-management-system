@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommentsController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
@@ -23,5 +24,6 @@ Route::get('/logout', [UsersController::class, 'logout'])->name('logout');
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     Route::get('/', [UsersController::class, 'index'])->name('index');
+    Route::post('/addcomment/{id}', [CommentsController::class, 'addcomment'])->name('addcomment');
     Route::resource('posts', PostController::class);
 });

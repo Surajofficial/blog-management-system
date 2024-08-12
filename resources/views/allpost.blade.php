@@ -22,6 +22,7 @@
                     </div>
                     <div class="col-md-2 my-auto">
                         <a class="btn btn-success m-1" href="{{ route('posts.edit', $post->id) }}">Edit</a>
+                        <a class="btn btn-success m-1" href="{{ route('posts.show', $post->id) }}">Show</a>
                         <form action="{{ route('posts.destroy', $post->id) }}" method="POST">
                             @csrf
                             @method('delete')
