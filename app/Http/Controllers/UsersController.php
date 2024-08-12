@@ -2,64 +2,66 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Users;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UsersController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function login()
     {
-        //
+        return view("login");
+    }
+    public function register()
+    {
+        return view("register");
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+
+        // dd($request->all());
+        $validate = $request->validate([
+            "name" => 'string|required|min:4',
+            "email" => 'string|required|unique:users,email',
+            "password" => 'string|required|min:6|confirmed',
+        ]);
+        $data = $request->all();
+        $create = User::create($data);
+        if ($create) {
+            return redirect()->route('login')->with('success', 'User registerd Successfully');
+        }
+        return redirect()->back()->with('success', 'Somthing Went wrong');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function loginsubmit(Request $request)
     {
-        //
-    }
+        $data = $request->all();
+        if (Auth::attempt(['email' => $data['email'], 'password' => $data['password']])) {
+            return redirect()->route('index')->with('success', 'test');
+        }
+        return redirect()->route('login')->with('success', 'test');
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Users $users)
-    {
-        //
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Users $users)
+    public function logout(Request $request)
     {
-        //
+        Auth::logout();
+        return redirect()->route('login')->with('success', 'test');
+
     }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Users $users)
+    public function index(Request $request)
     {
-        //
-    }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Users $users)
-    {
-        //
+        return view('home');
+
     }
 }

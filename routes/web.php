@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +15,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/login', [UsersController::class, 'login'])->name('login');
+Route::post('/loginsubmit', [UsersController::class, 'loginsubmit'])->name('loginsubmit');
+Route::get('/register', [UsersController::class, 'register'])->name('register');
+Route::post('/register-submit', [UsersController::class, 'create'])->name('registersubmit');
+Route::get('/logout', [UsersController::class, 'logout'])->name('logout');
+
+Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
+    Route::get('/', [UsersController::class, 'index'])->name('index');
+    Route::resource('posts', PostController::class);
 });
